@@ -10,17 +10,24 @@
     <div class="col-sm-12">
 
       <h2>{{ object.username }}</h2>
+      <img src="{% static 'images/anonymous.jpg' %}" alt="Profile photo" class="img-thumbnail">
+      <br>
+      <br>
       {% if object.name %}
-        <p>{{ object.name }}</p>
+        <p>You can call me {{ object.name }} and I cannot abide:</p>
       {% endif %}
+      <a class="btn btn-danger" href="#">Spiders</a>
+      <a class="btn btn-danger" href="#">Air Travel</a>
+      <a class="btn btn-danger" href="#">Used Car Salesmen</a>
+      <a class="btn btn-danger" href="#">The Grateful Dead</a>
     </div>
   </div>
-
+  <br>
 {% if object == request.user %}
 <!-- Action buttons -->
 <div class="row">
-
   <div class="col-sm-12">
+    <h3>Update:</h3>
     <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
     <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
     <!-- Your Stuff: Custom user template urls -->
