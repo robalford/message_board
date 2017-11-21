@@ -56,7 +56,7 @@ LOCAL_APPS = [
     # custom users app
     'message_board.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'message_board.messages',
+    'message_board.posts',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
