@@ -1,1 +1,57 @@
 {% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="pt-4">
+                <div class="input-group input-group-lg">
+                  <input type="text" class="form-control" placeholder="What's under your skin?">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Post</button>
+                  </span>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col-sm-4">
+                <img src="{% static 'images/eyore.jpg' %}" class="img-thumbnail" alt="Person image">
+           </div>
+           <div class="col-sm-8">
+              <h6>Coding Curmudgeon</h6>
+              <p>Woke up this morning and what did I see in my bathtub? A spider! Spider's are the worst -- fangs, eyes
+              all poppin' off the top of their heads, hairy legs, eight of them!</p>
+               <i class="fa fa-thumbs-o-down fa-lg"></i> 4
+               <input type="text" class="form-control mt-3" placeholder="Commiserate ...">
+           </div>
+       </div>
+       <div class="row pt-4">
+           <div class="col-sm-2"></div>
+           <div class="col-sm-2">
+                <img src="{% static 'images/grouchy.png' %}" class="img-thumbnail" width="100" alt="Person image">
+           </div>
+           <div class="col-sm-8">
+              <h6>Grouchy</h6>
+              <p>Ewww! Spiders are the worst! Did you squish it!?</p>
+               <i class="fa fa-thumbs-o-down fa-lg"></i> 1
+           </div>
+       </div>
+       <div class="row pt-4">
+           <div class="col-sm-2"></div>
+           <div class="col-sm-2">
+                <img src="{% static 'images/eyore.jpg' %}" class="img-thumbnail" width="100" alt="Person image">
+           </div>
+           <div class="col-sm-8">
+              <h6>Coding Curmudgeon</h6>
+              <p>Put it in the toilet and took it for a spin.</p>
+               <i class="fa fa-thumbs-o-down fa-lg"></i> 1
+           </div>
+       </div>
+    </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
