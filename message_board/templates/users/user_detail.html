@@ -9,17 +9,18 @@
   <div class="row">
     <div class="col-sm-12">
 
-      <h2>{{ object.username }}</h2>
-      <img src="{% static 'images/eyore.jpg' %}" alt="Profile photo" class="img-thumbnail">
-      <br>
-      <br>
-      {% if object.name %}
-        <p>You can call me {{ object.name }} and I cannot abide:</p>
+      <h2>{% if object.name %}{{ object.name }}{% else %}{{ object.username }}{% endif %}</h2>
+      {% if object.profile_pic %}
+      <img src="{{ object.profile_pic.url }}" alt="Profile photo" class="img-thumbnail">
       {% endif %}
-      <a class="btn btn-danger" href="#">Spiders</a>
-      <a class="btn btn-danger" href="#">Air Travel</a>
-      <a class="btn btn-danger" href="#">Used Car Salesmen</a>
-      <a class="btn btn-danger" href="#">The Grateful Dead</a>
+      <br>
+      <br>
+      {% if object.peeves %}
+          <p>Things I cannot abide:</p>
+          {% for peeve in object.peeves.all %}
+            <a class="btn btn-danger" href="#">{{ peeve }}</a>
+          {% endfor %}
+      {% endif %}
     </div>
   </div>
   <br>
