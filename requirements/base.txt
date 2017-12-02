@@ -15,6 +15,7 @@ django-environ==0.4.4
 
 # Forms
 django-crispy-forms==1.7.0
+django-bootstrap4==0.0.4
 
 # Models
 django-model-utils==3.0.0

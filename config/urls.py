@@ -5,8 +5,10 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
+from message_board.posts.views import message_board_view
+
 urlpatterns = [
-    url(r'^$', view=TemplateView.as_view(template_name='posts/message_board.html'), name='message_board'),
+    url(r'^$', message_board_view, name='message_board'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
     # Django Admin, use {% url 'admin:index' %}
@@ -16,7 +18,8 @@ urlpatterns = [
     url(r'^users/', include('message_board.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
+    # Message board
+    url(r'^message-board/', include('message_board.posts.urls', namespace='posts')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
