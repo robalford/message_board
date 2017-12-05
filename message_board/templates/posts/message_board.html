@@ -20,7 +20,14 @@
            </div>
            <div class="col-sm-8">
               <h6>{{ post.posted_by.name }}</h6>
-              <p>{{ post.post }}</p>
+              <p>
+               {{ post.post }}
+               {% if post.peeves %}
+                   {% for peeve in post.peeves.all %}
+                        <a href="#"> {{ peeve }}</a>
+                   {% endfor %}
+               {% endif %}
+              </p>
                <i class="fa fa-thumbs-o-down fa-lg"></i> 4
                <form method="post" action="{% url 'posts:commiserate' post.id %}">{% csrf_token %}
                     {% bootstrap_field commiserate_form.post show_label=False placeholder='Commiserate ...' field_class='mt-3'%}

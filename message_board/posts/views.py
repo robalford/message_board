@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
 from .forms import PostForm
-from .models import Post
+from .models import Post, Peeve
 
 
 @login_required
@@ -16,7 +16,18 @@ def message_board_view(request):
         if new_message_form.is_valid():
             new_message = new_message_form.save(commit=False)
             new_message.posted_by = request.user
-            new_message_form.save()
+            new_message.save()
+            # parse the post string to extract and save the tags (words prepended by an '!')
+            post_as_list = new_message.post.split()
+            for word in post_as_list:
+                if word.startswith('!'):
+                    word = word.lower()
+                    peeve, _ = Peeve.objects.get_or_create(peeve=word)
+                    new_message.peeves.add(peeve)
+                    peeve.users.add(request.user)
+                    peeve.save()
+                    new_message.post = new_message.post.replace(word, '')
+                    new_message.save()
             return redirect(reverse('message_board'))
     new_message_form = PostForm()
     commiserate_form = PostForm(prefix='commiserate')
