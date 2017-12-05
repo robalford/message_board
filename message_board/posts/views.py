@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from .forms import PostForm
@@ -9,8 +9,12 @@ from .models import Post, Peeve
 
 
 @login_required
-def message_board_view(request):
-    all_posts = Post.objects.filter(response_to=None)
+def message_board_view(request, peeve=None):
+    if peeve:
+        peeve = get_object_or_404(Peeve, peeve=peeve)
+        posts = get_list_or_404(Post, response_to=None, peeves=peeve)
+    else:
+        posts = Post.objects.filter(response_to=None)
     if request.method == 'POST':
         new_message_form = PostForm(request.POST)
         if new_message_form.is_valid():
@@ -32,7 +36,7 @@ def message_board_view(request):
     new_message_form = PostForm()
     commiserate_form = PostForm(prefix='commiserate')
     context = {
-        'all_posts': all_posts,
+        'posts': posts,
         'new_message_form': new_message_form,
         'commiserate_form': commiserate_form,
     }
