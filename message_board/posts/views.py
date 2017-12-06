@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from .forms import PostForm
+from .forms import PostForm, LoatheForm
 from .models import Post, Peeve
 
 
@@ -21,7 +22,7 @@ def message_board_view(request, peeve=None):
             new_message = new_message_form.save(commit=False)
             new_message.posted_by = request.user
             new_message.save()
-            # parse the post string to extract and save the tags (words prepended by an '!')
+            # parse the post string to extract and save the peeves (words prepended by an '!')
             post_as_list = new_message.post.split()
             for word in post_as_list:
                 if word.startswith('!'):
@@ -56,4 +57,19 @@ def commiserate_view(request, post_id):
     else:
         messages.error(request, commiserate_form.errors)
         return redirect(reverse('message_board'))
+
+
+@require_POST
+@login_required
+def loathe_view(request):
+    loathe_form = LoatheForm(request.POST)
+    if not loathe_form.is_valid():
+        messages.error(request, loathe_form.errors)
+        return redirect(reverse('message_board'))
+    post_id = loathe_form.cleaned_data['post_id']
+    post = Post.objects.get(pk=post_id)
+    post.loathes.add(request.user)
+    post.save()
+    loathes_count = str(post.loathes.count())
+    return HttpResponse(loathes_count)
 

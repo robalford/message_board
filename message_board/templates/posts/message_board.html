@@ -28,7 +28,13 @@
                    {% endfor %}
                {% endif %}
               </p>
-               <i class="fa fa-thumbs-o-down fa-lg"></i> 4
+              <form method="post" action="">{% csrf_token %}
+               <input name="post_id" type="hidden" value="{{ post.id }}">
+               <p>
+                   <i id="loathe-{{ post.id }}" class="fa fa-thumbs-o-down fa-lg loathe"></i>
+                   <span id="post{{ post.id }}-loathe-count">{{ post.loathes.count }}</span>
+               </p>
+              </form>
                <form method="post" action="{% url 'posts:commiserate' post.id %}">{% csrf_token %}
                     {% bootstrap_field commiserate_form.post show_label=False placeholder='Commiserate ...' field_class='mt-3'%}
                </form>
@@ -49,7 +55,21 @@
        {% endfor %}
        {% endfor %}
     </div>
-    </div>
     <div class="col-md-2"></div>
 </div>
+{% endblock %}
+
+{% block javascript %}{{ block.super }}
+<script>
+$(function () {
+    // POST to loathe_view when the icon is clicked
+    $('.loathe').on('click', function() {
+        var postID = this.id.split('-')[1];
+        var postIDForm = $(this).closest('form').serialize();
+        $.post("{% url 'posts:loathe' %}", postIDForm, function(data) {
+            $('#post' + postID + '-loathe-count').html(data);
+        });
+    });
+});
+</script>
 {% endblock %}

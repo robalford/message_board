@@ -10,3 +10,7 @@ class PostForm(forms.ModelForm):
         widgets = {'post': forms.TextInput}
 
 
+class LoatheForm(forms.Form):
+    post_id = forms.CharField(widget=forms.HiddenInput)
+
+
